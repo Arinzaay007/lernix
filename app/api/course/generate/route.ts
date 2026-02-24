@@ -85,7 +85,7 @@ Previous lessons covered: ${prevLessons}
 Write this lesson now.`
           )
 
-          const contentMd = result.response.text()''
+          const contentMd = result.response.text()
 
           // Insert lesson
           const { data: lesson, error: lessonError } = await supabase
