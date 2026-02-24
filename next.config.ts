@@ -1,10 +1,5 @@
 import type { NextConfig } from 'next'
 
-const nextConfig: NextConfig = {
-  output: 'standalone',
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
-}
+const nextConfig: NextConfig = {}
 
 export default nextConfig
