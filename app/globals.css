@@ -1,0 +1,256 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ──────────────────────────────────────────────────────── */
+:root {
+  --bg:           #0a0a0f;
+  --bg-card:      #0f0f18;
+  --bg-code:      #0d0d14;
+  --border:       rgba(255, 255, 255, 0.07);
+  --border-light: rgba(255, 255, 255, 0.04);
+
+  --accent:       #6c63ff;
+  --accent-glow:  rgba(108, 99, 255, 0.35);
+  --accent-dim:   rgba(108, 99, 255, 0.12);
+  --accent-text:  #a5a0ff;
+
+  --text-primary:   #f0eeff;
+  --text-secondary: #8b8aa0;
+  --text-muted:     #4a4960;
+  --text-code:      #c9c6ff;
+
+  --font-display: var(--font-display, 'Georgia', serif);
+  --font-body:    var(--font-body, system-ui, sans-serif);
+  --font-mono:    var(--font-mono, 'Courier New', monospace);
+
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+}
+
+/* ── Base resets ────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbars ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar          { width: 5px; height: 5px; }
+::-webkit-scrollbar-track    { background: transparent; }
+::-webkit-scrollbar-thumb    { background: rgba(255,255,255,0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
+
+/* ── Noise texture (applied via utility class) ───────────────────────────── */
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Gradient orbs ──────────────────────────────────────────────────────── */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Lesson prose styles ────────────────────────────────────────────────── */
+/* Used inside LessonContent — supplements react-markdown component overrides */
+.prose-lernix {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #d0cde8;
+}
+
+.prose-lernix p       { margin-bottom: 20px; }
+.prose-lernix p:last-child { margin-bottom: 0; }
+
+.prose-lernix h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 40px 0 14px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.prose-lernix h3 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-text);
+  margin: 28px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.prose-lernix ul,
+.prose-lernix ol {
+  margin: 0 0 20px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose-lernix li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  color: #c0bdd9;
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+.prose-lernix ul li::before {
+  content: '·';
+  position: absolute;
+  left: 6px;
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.prose-lernix ol {
+  counter-reset: list;
+}
+.prose-lernix ol li {
+  counter-increment: list;
+}
+.prose-lernix ol li::before {
+  content: counter(list) '.';
+  position: absolute;
+  left: 0;
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  top: 4px;
+}
+
+.prose-lernix strong { color: #f0eeff; font-weight: 600; }
+.prose-lernix em     { color: #b8b4d8; font-style: italic; }
+
+.prose-lernix code {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  background: rgba(108, 99, 255, 0.1);
+  border: 1px solid rgba(108, 99, 255, 0.15);
+  color: #b8b4ff;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.prose-lernix pre {
+  margin: 24px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-code);
+  position: relative;
+}
+.prose-lernix pre::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0.5;
+}
+.prose-lernix pre code {
+  background: none;
+  border: none;
+  padding: 16px;
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-code);
+  overflow-x: auto;
+}
+
+.prose-lernix blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-dim);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 18px;
+  margin: 24px 0;
+  font-size: 14.5px;
+  color: #c0bdd9;
+  font-style: normal;
+}
+
+.prose-lernix hr {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin: 32px 0;
+}
+
+/* ── Utility: fade-up animation ─────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+/* ── Utility: streaming cursor blink ────────────────────────────────────── */
+.streaming-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: var(--accent);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ── Dot bounce (typing indicator) ─────────────────────────────────────── */
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%           { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ── Focus ring override (use accent color) ─────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(108, 99, 255, 0.3);
+  color: #f0eeff;
+}
+
+/* ── Line clamp utilities ───────────────────────────────────────────────── */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
