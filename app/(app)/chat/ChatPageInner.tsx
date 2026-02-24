@@ -20,7 +20,7 @@ export default function ChatPageInner() {
   const { state: genState, generate } = useCourseGeneration()
 
   const { messages, isStreaming, error, sendMessage } = useChat({
-    onCourseGeneration: useCallback((payload) => {
+    onCourseGeneration: useCallback((payload: {action: string; title: string; slug: string; description: string; lessons: {order_index: number; title: string; description: string}[]}) => {
       setShowGeneration(true)
       generate(payload)
     }, [generate]),
